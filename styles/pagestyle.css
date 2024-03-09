@@ -1,0 +1,24 @@
+.navbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: fixed; /* Make the navbar fixed to the side */
+  left: 0; /* Position it on the left side */
+  top: 0; /* Align it to the top */
+  height: 100vh; /* Make it take up the full height of the viewport */
+  padding: 20px; /* Add some padding for spacing */
+  background-color: #f1f1f1; /* Add a background color for better visibility */
+}
+
+.navbar a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 200px; /* Adjust this value to provide space for the navbar */
+  padding: 20px;
+}
