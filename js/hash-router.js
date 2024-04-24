@@ -53,13 +53,50 @@ const locationHandler = async () => {
   // Check if the route has a JavaScript file associated with it
   if (route.script) {
     // Load the JavaScript file dynamically
+    // Load the JavaScript file dynamically
+    const pseudocode = getBubbleSortPseudocode()
+    const pseudocodeElement = document.createElement('pre')
+    const lines = pseudocode.split('\n')
+    const content = document.getElementById('content')
+    lines.forEach((line, index) => {
+      const lineDiv = document.createElement('div')
+      // Replace leading spaces with non-breaking spaces
+      const leadingSpaces = line.match(/^ */)[0].length
+      line = '&nbsp;'.repeat(leadingSpaces) + line.trim()
+      lineDiv.innerHTML = line
+      lineDiv.id = `line-${index}` // Add unique id to each line
+
+      content.appendChild(lineDiv)
+    })
+
+    let currentLine = 0
+    const moveHighlight = () => {
+      // Remove the highlight from the current line
+      document.getElementById(`line-${currentLine}`).className = ''
+
+      // Move to the next line
+      currentLine++
+
+      // If we've reached the end, go back to the start
+      if (currentLine >= lines.length) {
+        currentLine = 0
+      }
+
+      // Add the highlight to the new line
+      document.getElementById(`line-${currentLine}`).className = 'highlight'
+    }
+
+    setInterval(moveHighlight, 1000) // Change 1000 to the number of milliseconds you want to wait between moves
+
     const script = document.createElement('script')
     script.src = route.script
+    document.getElementById('content').appendChild(pseudocodeElement)
     document.body.appendChild(script)
     script.onload = init // Call init() function after script is loaded
   }
 }
 // create a function that watches the hash and calls the urlLocationHandler
 window.addEventListener('hashchange', locationHandler)
+
 // call the urlLocationHandler to load the page
 locationHandler()

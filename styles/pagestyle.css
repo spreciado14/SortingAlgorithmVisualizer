@@ -22,3 +22,10 @@
   margin-left: 200px; /* Adjust this value to provide space for the navbar */
   padding: 20px;
 }
+
+#pseudocode {
+  border: 1px solid #000;
+  padding: 10px;
+  font-family: monospace;
+  white-space: pre;
+}

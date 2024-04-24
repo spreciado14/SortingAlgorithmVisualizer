@@ -22,7 +22,23 @@ body {
 }
 
 .bar {
-  width: 10px;
+  width: 20px;
   background-color: black;
   margin: 1px;
+}
+
+.pre {
+  border: 1px solid #000;
+  padding: 10px;
+  font-family: monospace;
+  white-space: pre;
+}
+
+.pseudocode-style {
+  border: 1px solid #000;
+  padding: 10px 5px 10px 10px; /* top right bottom left */
+}
+
+.highlight {
+  background-color: yellow; /* Change this to the color you want */
 }

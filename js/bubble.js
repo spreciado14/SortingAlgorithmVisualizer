@@ -1,9 +1,11 @@
 const n = 40
 const array = []
 let audioCtx = null
+let isAnimating = false
 init()
 
 function init() {
+  if (isAnimating) return
   for (let i = 0; i < n; i++) {
     array[i] = Math.random()
   }
@@ -11,13 +13,17 @@ function init() {
 }
 
 function play() {
+  if (isAnimating) return // Exit early if animation is already in progress
+
+  isAnimating = true // Set animation state to true
+
   const swaps = bubbleSort([...array])
   animate(swaps)
 }
-
 function animate(swaps) {
   if (swaps.length == 0) {
     showBars()
+    isAnimating = false // Set animation state to false when animation is complete
     return
   }
   const [i, j] = swaps.shift(0)
@@ -25,61 +31,11 @@ function animate(swaps) {
   showBars([i, j])
   playNote(200 + array[i] * 500)
   playNote(200 + array[j] * 500)
+  highlightPseudocodeLine(i)
 
   setTimeout(function () {
     animate(swaps)
-  }, 30)
-}
-
-function quickSort(array) {
-  const swaps = []
-
-  function partition(low, high) {
-    const pivot = array[high]
-    let i = low - 1
-
-    for (let j = low; j < high; j++) {
-      if (array[j] < pivot) {
-        i++
-        swaps.push([i, j])
-        ;[array[i], array[j]] = [array[j], array[i]]
-      }
-    }
-
-    swaps.push([i + 1, high])
-    ;[array[i + 1], array[high]] = [array[high], array[i + 1]]
-    return i + 1
-  }
-
-  function quickSortRecursive(low, high) {
-    if (low < high) {
-      const partitionIndex = partition(low, high)
-      quickSortRecursive(low, partitionIndex - 1)
-      quickSortRecursive(partitionIndex + 1, high)
-    }
-  }
-
-  quickSortRecursive(0, array.length - 1)
-  return swaps
-}
-
-function insertionSort(array) {
-  const swaps = []
-
-  for (let i = 1; i < array.length; i++) {
-    let currentIndex = i
-
-    while (currentIndex > 0 && array[currentIndex - 1] > array[currentIndex]) {
-      swaps.push([currentIndex - 1, currentIndex])
-      ;[array[currentIndex - 1], array[currentIndex]] = [
-        array[currentIndex],
-        array[currentIndex - 1],
-      ]
-      currentIndex--
-    }
-  }
-
-  return swaps
+  }, 100)
 }
 
 function bubbleSort(array) {
@@ -126,4 +82,30 @@ function playNote(freq) {
   node.gain.linearRampToValueAtTime(0, audioCtx.currentTime + dur)
   osc.connect(node)
   node.connect(audioCtx.destination)
+}
+
+function displayPseudocode() {
+  const pseudocode = getBubbleSortPseudocode()
+  const lines = pseudocode.split('\n')
+  const container = document.getElementById('pseudocode')
+
+  lines.forEach((line, index) => {
+    const div = document.createElement('div')
+    div.textContent = line
+    div.id = `line-${index + 1}`
+    div.className = 'pseudocode-line'
+    container.appendChild(div)
+  })
+}
+
+function highlightPseudocodeLine(lineNumber) {
+  // Remove highlighting from all lines
+  const lines = document.querySelectorAll('.pseudocode-line')
+  lines.forEach(line => line.classList.remove('highlight'))
+
+  // Add highlighting to the current line
+  const line = document.getElementById(`line-${lineNumber}`)
+  if (line) {
+    line.classList.add('highlight')
+  }
 }
