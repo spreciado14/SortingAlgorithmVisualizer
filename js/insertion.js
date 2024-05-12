@@ -3,7 +3,7 @@ window.addEventListener('load', function () {
   if (insertionsortDiv) {
     let audioCtx = null
     let isAnimating = false
-    const n = 10
+    const n = 15
     const array = []
 
     window.insertion = {

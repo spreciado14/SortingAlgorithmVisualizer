@@ -1,12 +1,12 @@
 window.addEventListener('load', function () {
-  const selectionsortDiv = document.getElementById('selectionsort')
-  if (selectionsortDiv) {
+  const shakersortDiv = document.getElementById('shakersort')
+  if (shakersortDiv) {
     let audioCtx = null
     let isAnimating = false
     const n = 15
     const array = []
 
-    window.selection = {
+    window.shaker = {
       init: function () {
         if (isAnimating) return
         for (let i = 0; i < n; i++) {
@@ -19,7 +19,7 @@ window.addEventListener('load', function () {
 
         isAnimating = true // Set animation state to true
 
-        const swaps = selectionSort([...array])
+        const swaps = shakerSort([...array])
         animate(swaps)
       },
     }
@@ -49,26 +49,47 @@ window.addEventListener('load', function () {
       }, 100)
     }
 
-    function selectionSort(array) {
+    function shakerSort(array) {
       const swaps = []
-      for (let i = 0; i < array.length - 1; i++) {
-        let minIndex = i
-        for (let j = i + 1; j < array.length; j++) {
-          if (array[j] < array[minIndex]) {
-            minIndex = j
+      let swapped = true
+      let start = 0
+      let end = array.length - 1
+
+      while (swapped) {
+        swapped = false
+
+        // Pass from left to right
+        for (let i = start; i < end; i++) {
+          if (array[i] > array[i + 1]) {
+            swaps.push([i, i + 1])
+            ;[array[i], array[i + 1]] = [array[i + 1], array[i]]
+            swapped = true
           }
         }
-        if (minIndex !== i) {
-          swaps.push([i, minIndex])
-          ;[array[i], array[minIndex]] = [array[minIndex], array[i]]
+        if (!swapped) break
+
+        // Reduce the end pointer since the largest element is now at the end
+        end--
+
+        // Pass from right to left
+        for (let i = end; i > start; i--) {
+          if (array[i] < array[i - 1]) {
+            swaps.push([i, i - 1])
+            ;[array[i], array[i - 1]] = [array[i - 1], array[i]]
+            swapped = true
+          }
         }
+
+        // Increase the start pointer since the smallest element is now at the start
+        start++
       }
+
       return swaps
     }
 
     function showBars(indices) {
-      const selectionsortDiv = document.getElementById('selectionsort')
-      selectionsortDiv.innerHTML = ''
+      const shakersortDiv = document.getElementById('shakersort')
+      shakersortDiv.innerHTML = ''
       for (let i = 0; i < array.length; i++) {
         const bar = document.createElement('div')
         bar.style.height = array[i] * 100 + '%'
@@ -76,7 +97,7 @@ window.addEventListener('load', function () {
         if (indices && indices.includes(i)) {
           bar.style.backgroundColor = 'red'
         }
-        selectionsortDiv.appendChild(bar)
+        shakersortDiv.appendChild(bar)
       }
     }
 
@@ -99,14 +120,14 @@ window.addEventListener('load', function () {
     }
     // Add an event listener for hash changes
     window.addEventListener('hashchange', function () {
-      if (window.location.hash === '#selectionsort') {
-        selection.init() // Initialize the visualization
+      if (window.location.hash === '#shakersort') {
+        shaker.init() // Initialize the visualization
       }
     })
 
     // Check the current hash on page load
-    if (window.location.hash === '#selectionsort') {
-      selection.init() // Initialize the visualization
+    if (window.location.hash === '#shakersort') {
+      shaker.init() // Initialize the visualization
     }
   }
 })

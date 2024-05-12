@@ -3,7 +3,7 @@ window.onload = function () {
   if (mergesortDiv) {
     let audioCtx = null
     let isAnimating = false
-    const n = 10
+    const n = 20
     const array = []
 
     window.merge = {
@@ -64,7 +64,7 @@ window.onload = function () {
       // Call animate recursively with a delay
       setTimeout(function () {
         animate(swaps)
-      }, 100)
+      }, 50)
     }
 
     function isSorted(array) {

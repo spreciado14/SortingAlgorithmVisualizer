@@ -7,15 +7,15 @@
   top: 0; /* Align it to the top */
   height: 100vh; /* Make it take up the full height of the viewport */
   padding: 20px; /* Add some padding for spacing */
-  border-right: 1px solid #000; /* Add a border to the right side */
+  border-right: 1px solid #212529; /* Add a border to the right side */
 }
 
 .navbar a {
   display: block;
-  border: 1px solid #000000;
+  border: 1px solid #212529;
   padding: 15px;
   text-decoration: none;
-  color: #000000;
+  color: #212529;
 }
 
 .container {
@@ -26,16 +26,20 @@
 }
 
 .navbar a:hover {
-  background-color: #6d6d6d2b;
+  background-color: #e9ecef;
 }
 
 button {
   padding: 10px;
-  background-color: #000000a0;
+  background-color: #212529;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+button:hover {
+  background-color: #868e96;
 }
 
 #pseudocode {

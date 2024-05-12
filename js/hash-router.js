@@ -10,16 +10,6 @@ const routes = {
     title: 'Home | ' + pageTitle,
     description: 'This is the home page',
   },
-  about: {
-    template: '/templates/about.html',
-    title: 'About Us | ' + pageTitle,
-    description: 'This is the about page',
-  },
-  contact: {
-    template: '/templates/contact.html',
-    title: 'Contact Us | ' + pageTitle,
-    description: 'This is the contact page',
-  },
   insertionsort: {
     template: '/templates/insertionsort.html',
     title: 'Insertion Sort | ' + pageTitle,
@@ -39,6 +29,21 @@ const routes = {
     template: '/templates/mergesort.html',
     title: 'Merge Sort | ' + pageTitle,
     description: 'Merge Sort',
+  },
+  bogosort: {
+    template: '/templates/bogosort.html',
+    title: 'Bogo Sort | ' + pageTitle,
+    description: 'Bogo Sort',
+  },
+  shakersort: {
+    template: '/templates/shakersort.html',
+    title: 'Shaker Sort | ' + pageTitle,
+    description: 'Shaker Sort',
+  },
+  oddevensort: {
+    template: '/templates/oddevensort.html',
+    title: 'Odd Even Sort | ' + pageTitle,
+    description: 'Odd Even Sort',
   },
 }
 
@@ -68,6 +73,12 @@ const locationHandler = async () => {
     script.src = '/js/merge.js'
   } else if (location === 'selectionsort') {
     script.src = '/js/selection.js'
+  } else if (location === 'bogosort') {
+    script.src = '/js/bogo.js'
+  } else if (location === 'shakersort') {
+    script.src = '/js/shake.js'
+  } else if (location === 'oddevensort') {
+    script.src = '/js/oddeven.js'
   }
 
   // append new script to body

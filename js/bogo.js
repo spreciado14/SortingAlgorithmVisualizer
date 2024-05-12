@@ -1,12 +1,12 @@
 window.addEventListener('load', function () {
-  const selectionsortDiv = document.getElementById('selectionsort')
-  if (selectionsortDiv) {
+  const bogosortDiv = document.getElementById('bogosort')
+  if (bogosortDiv) {
     let audioCtx = null
     let isAnimating = false
-    const n = 15
+    const n = 10
     const array = []
 
-    window.selection = {
+    window.bogo = {
       init: function () {
         if (isAnimating) return
         for (let i = 0; i < n; i++) {
@@ -19,7 +19,7 @@ window.addEventListener('load', function () {
 
         isAnimating = true // Set animation state to true
 
-        const swaps = selectionSort([...array])
+        const swaps = bogoSort([...array])
         animate(swaps)
       },
     }
@@ -38,6 +38,7 @@ window.addEventListener('load', function () {
         isAnimating = false // Set animation state to false when animation is complete
         return
       }
+
       const [i, j] = swaps.shift()
       ;[array[i], array[j]] = [array[j], array[i]]
       showBars([i, j])
@@ -45,30 +46,55 @@ window.addEventListener('load', function () {
       playNote(200 + array[j] * 500)
 
       setTimeout(function () {
+        console.log('calling animate again with swaps:', swaps)
         animate(swaps)
       }, 100)
     }
 
-    function selectionSort(array) {
-      const swaps = []
-      for (let i = 0; i < array.length - 1; i++) {
-        let minIndex = i
-        for (let j = i + 1; j < array.length; j++) {
-          if (array[j] < array[minIndex]) {
-            minIndex = j
-          }
-        }
-        if (minIndex !== i) {
-          swaps.push([i, minIndex])
-          ;[array[i], array[minIndex]] = [array[minIndex], array[i]]
+    function isSorted(array) {
+      for (let i = 1; i < array.length; i++) {
+        if (array[i - 1] > array[i]) {
+          return false
         }
       }
+      return true
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[array[i], array[j]] = [array[j], array[i]]
+      }
+      return array // Return the shuffled array
+    }
+    function bogoSort(array) {
+      const swaps = []
+      let sorted = false
+
+      while (!sorted) {
+        sorted = isSorted(array)
+        if (!sorted) {
+          // Shuffle the array
+          const shuffledArray = shuffle([...array])
+
+          // Compare the shuffled array with the original array
+          // and record the indices that need to be swapped
+          for (let i = 0; i < array.length; i++) {
+            if (array[i] !== shuffledArray[i]) {
+              const j = shuffledArray.indexOf(array[i])
+              swaps.push([i, j])
+              ;[array[i], array[j]] = [array[j], array[i]]
+            }
+          }
+        }
+      }
+
       return swaps
     }
 
     function showBars(indices) {
-      const selectionsortDiv = document.getElementById('selectionsort')
-      selectionsortDiv.innerHTML = ''
+      const bogosortDiv = document.getElementById('bogosort')
+      bogosortDiv.innerHTML = ''
       for (let i = 0; i < array.length; i++) {
         const bar = document.createElement('div')
         bar.style.height = array[i] * 100 + '%'
@@ -76,7 +102,7 @@ window.addEventListener('load', function () {
         if (indices && indices.includes(i)) {
           bar.style.backgroundColor = 'red'
         }
-        selectionsortDiv.appendChild(bar)
+        bogosortDiv.appendChild(bar)
       }
     }
 
@@ -88,7 +114,15 @@ window.addEventListener('load', function () {
       }
       const dur = 0.1
       const osc = audioCtx.createOscillator()
-      osc.frequency.value = freq
+
+      // Check if freq is a finite number
+      if (isFinite(freq)) {
+        osc.frequency.value = freq
+      } else {
+        // If freq is not a finite number, assign a default frequency value
+        osc.frequency.value = 440 // Default to A4 note
+      }
+
       osc.start()
       osc.stop(audioCtx.currentTime + dur)
       const node = audioCtx.createGain()
@@ -97,16 +131,17 @@ window.addEventListener('load', function () {
       osc.connect(node)
       node.connect(audioCtx.destination)
     }
+
     // Add an event listener for hash changes
     window.addEventListener('hashchange', function () {
-      if (window.location.hash === '#selectionsort') {
-        selection.init() // Initialize the visualization
+      if (window.location.hash === '#bogosort') {
+        bogo.init() // Initialize the visualization
       }
     })
 
     // Check the current hash on page load
-    if (window.location.hash === '#selectionsort') {
-      selection.init() // Initialize the visualization
+    if (window.location.hash === '#bogosort') {
+      bogo.init() // Initialize the visualization
     }
   }
 })

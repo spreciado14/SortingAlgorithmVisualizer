@@ -1,12 +1,12 @@
 window.addEventListener('load', function () {
-  const selectionsortDiv = document.getElementById('selectionsort')
-  if (selectionsortDiv) {
+  const oddevensortDiv = document.getElementById('oddevensort')
+  if (oddevensortDiv) {
     let audioCtx = null
     let isAnimating = false
     const n = 15
     const array = []
 
-    window.selection = {
+    window.oddeven = {
       init: function () {
         if (isAnimating) return
         for (let i = 0; i < n; i++) {
@@ -19,7 +19,7 @@ window.addEventListener('load', function () {
 
         isAnimating = true // Set animation state to true
 
-        const swaps = selectionSort([...array])
+        const swaps = oddEvenSort([...array])
         animate(swaps)
       },
     }
@@ -49,26 +49,38 @@ window.addEventListener('load', function () {
       }, 100)
     }
 
-    function selectionSort(array) {
+    function oddEvenSort(array) {
       const swaps = []
-      for (let i = 0; i < array.length - 1; i++) {
-        let minIndex = i
-        for (let j = i + 1; j < array.length; j++) {
-          if (array[j] < array[minIndex]) {
-            minIndex = j
+      let sorted = false
+
+      while (!sorted) {
+        sorted = true
+
+        // Odd phase
+        for (let i = 1; i < array.length - 1; i += 2) {
+          if (array[i] > array[i + 1]) {
+            swaps.push([i, i + 1])
+            ;[array[i], array[i + 1]] = [array[i + 1], array[i]]
+            sorted = false
           }
         }
-        if (minIndex !== i) {
-          swaps.push([i, minIndex])
-          ;[array[i], array[minIndex]] = [array[minIndex], array[i]]
+
+        // Even phase
+        for (let i = 0; i < array.length - 1; i += 2) {
+          if (array[i] > array[i + 1]) {
+            swaps.push([i, i + 1])
+            ;[array[i], array[i + 1]] = [array[i + 1], array[i]]
+            sorted = false
+          }
         }
       }
+
       return swaps
     }
 
     function showBars(indices) {
-      const selectionsortDiv = document.getElementById('selectionsort')
-      selectionsortDiv.innerHTML = ''
+      const oddevensortDiv = document.getElementById('oddevensort')
+      oddevensortDiv.innerHTML = ''
       for (let i = 0; i < array.length; i++) {
         const bar = document.createElement('div')
         bar.style.height = array[i] * 100 + '%'
@@ -76,7 +88,7 @@ window.addEventListener('load', function () {
         if (indices && indices.includes(i)) {
           bar.style.backgroundColor = 'red'
         }
-        selectionsortDiv.appendChild(bar)
+        oddevensortDiv.appendChild(bar)
       }
     }
 
@@ -99,14 +111,14 @@ window.addEventListener('load', function () {
     }
     // Add an event listener for hash changes
     window.addEventListener('hashchange', function () {
-      if (window.location.hash === '#selectionsort') {
-        selection.init() // Initialize the visualization
+      if (window.location.hash === '#oddevensort') {
+        oddeven.init() // Initialize the visualization
       }
     })
 
     // Check the current hash on page load
-    if (window.location.hash === '#selectionsort') {
-      selection.init() // Initialize the visualization
+    if (window.location.hash === '#oddevensort') {
+      oddeven.init() // Initialize the visualization
     }
   }
 })
