@@ -1,12 +1,12 @@
 window.addEventListener('load', function () {
-  const insertionsortDiv = document.getElementById('insertionsort')
-  if (insertionsortDiv) {
+  const selectionsortDiv = document.getElementById('selectionsort')
+  if (selectionsortDiv) {
     let audioCtx = null
     let isAnimating = false
     const n = 10
     const array = []
 
-    window.insertion = {
+    window.selection = {
       init: function () {
         if (isAnimating) return
         for (let i = 0; i < n; i++) {
@@ -19,7 +19,7 @@ window.addEventListener('load', function () {
 
         isAnimating = true // Set animation state to true
 
-        const swaps = insertionSort([...array])
+        const swaps = selectionSort([...array])
         animate(swaps)
       },
     }
@@ -49,28 +49,26 @@ window.addEventListener('load', function () {
       }, 100)
     }
 
-    function insertionSort(array) {
+    function selectionSort(array) {
       const swaps = []
-      for (let i = 1; i < array.length; i++) {
-        let currentIndex = i
-        while (
-          currentIndex > 0 &&
-          array[currentIndex - 1] > array[currentIndex]
-        ) {
-          swaps.push([currentIndex - 1, currentIndex])
-          ;[array[currentIndex], array[currentIndex - 1]] = [
-            array[currentIndex - 1],
-            array[currentIndex],
-          ]
-          currentIndex--
+      for (let i = 0; i < array.length - 1; i++) {
+        let minIndex = i
+        for (let j = i + 1; j < array.length; j++) {
+          if (array[j] < array[minIndex]) {
+            minIndex = j
+          }
+        }
+        if (minIndex !== i) {
+          swaps.push([i, minIndex])
+          ;[array[i], array[minIndex]] = [array[minIndex], array[i]]
         }
       }
       return swaps
     }
 
     function showBars(indices) {
-      const insertionsortDiv = document.getElementById('insertionsort')
-      insertionsortDiv.innerHTML = ''
+      const selectionsortDiv = document.getElementById('selectionsort')
+      selectionsortDiv.innerHTML = ''
       for (let i = 0; i < array.length; i++) {
         const bar = document.createElement('div')
         bar.style.height = array[i] * 100 + '%'
@@ -78,7 +76,7 @@ window.addEventListener('load', function () {
         if (indices && indices.includes(i)) {
           bar.style.backgroundColor = 'red'
         }
-        insertionsortDiv.appendChild(bar)
+        selectionsortDiv.appendChild(bar)
       }
     }
 
@@ -99,17 +97,16 @@ window.addEventListener('load', function () {
       osc.connect(node)
       node.connect(audioCtx.destination)
     }
-
     // Add an event listener for hash changes
     window.addEventListener('hashchange', function () {
-      if (window.location.hash === '#insertionsort') {
-        insertion.init() // Initialize the visualization
+      if (window.location.hash === '#selectionsort') {
+        selection.init() // Initialize the visualization
       }
     })
 
     // Check the current hash on page load
-    if (window.location.hash === '#insertionsort') {
-      insertion.init() // Initialize the visualization
+    if (window.location.hash === '#selectionsort') {
+      selection.init() // Initialize the visualization
     }
   }
 })

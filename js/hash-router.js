@@ -30,6 +30,16 @@ const routes = {
     title: 'Bubble Sort | ' + pageTitle,
     description: 'Bubble Sort',
   },
+  selectionsort: {
+    template: '/templates/selectionsort.html',
+    title: 'Selection Sort | ' + pageTitle,
+    description: 'Selection Sort',
+  },
+  mergesort: {
+    template: '/templates/mergesort.html',
+    title: 'Merge Sort | ' + pageTitle,
+    description: 'Merge Sort',
+  },
 }
 
 const locationHandler = async () => {
@@ -54,6 +64,10 @@ const locationHandler = async () => {
     script.src = '/js/bubble.js'
   } else if (location === 'insertionsort') {
     script.src = '/js/insertion.js'
+  } else if (location === 'mergesort') {
+    script.src = '/js/merge.js'
+  } else if (location === 'selectionsort') {
+    script.src = '/js/selection.js'
   }
 
   // append new script to body

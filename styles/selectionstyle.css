@@ -1,10 +1,10 @@
-#insertionsort {
+#selectionsort {
   height: 200px;
   display: flex;
   align-items: flex-end;
 }
 
-.insertionsort-name {
+.selectionsort-name {
   display: flex;
   justify-content: center;
 }

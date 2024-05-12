@@ -1,9 +1,9 @@
-window.onload = function () {
+window.addEventListener('load', function () {
   const bubblesortDiv = document.getElementById('bubblesort')
   if (bubblesortDiv) {
     let audioCtx = null
     let isAnimating = false
-    const n = 40
+    const n = 10
     const array = []
 
     window.bubble = {
@@ -95,7 +95,6 @@ window.onload = function () {
       osc.connect(node)
       node.connect(audioCtx.destination)
     }
-
     // Add an event listener for hash changes
     window.addEventListener('hashchange', function () {
       if (window.location.hash === '#bubblesort') {
@@ -108,4 +107,4 @@ window.onload = function () {
       bubble.init() // Initialize the visualization
     }
   }
-}
+})
