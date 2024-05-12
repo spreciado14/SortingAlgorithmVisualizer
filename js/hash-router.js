@@ -1,47 +1,47 @@
 const pageTitle = 'JS Single Page Application Router'
 const routes = {
   404: {
-    template: '/templates/404.js',
+    template: '../templates/404.js',
     title: '404 | ' + pageTitle,
     description: 'Page not found',
   },
   '/': {
-    template: '/templates/index.html',
+    template: '../templates/index.html',
     title: 'Home | ' + pageTitle,
     description: 'This is the home page',
   },
   insertionsort: {
-    template: '/templates/insertionsort.html',
+    template: '../templates/insertionsort.html',
     title: 'Insertion Sort | ' + pageTitle,
     description: 'Insertion Sort',
   },
   bubblesort: {
-    template: '/templates/bubblesort.html',
+    template: '../templates/bubblesort.html',
     title: 'Bubble Sort | ' + pageTitle,
     description: 'Bubble Sort',
   },
   selectionsort: {
-    template: '/templates/selectionsort.html',
+    template: '../templates/selectionsort.html',
     title: 'Selection Sort | ' + pageTitle,
     description: 'Selection Sort',
   },
   mergesort: {
-    template: '/templates/mergesort.html',
+    template: '../templates/mergesort.html',
     title: 'Merge Sort | ' + pageTitle,
     description: 'Merge Sort',
   },
   bogosort: {
-    template: '/templates/bogosort.html',
+    template: '../templates/bogosort.html',
     title: 'Bogo Sort | ' + pageTitle,
     description: 'Bogo Sort',
   },
   shakersort: {
-    template: '/templates/shakersort.html',
+    template: '../templates/shakersort.html',
     title: 'Shaker Sort | ' + pageTitle,
     description: 'Shaker Sort',
   },
   oddevensort: {
-    template: '/templates/oddevensort.html',
+    template: '../templates/oddevensort.html',
     title: 'Odd Even Sort | ' + pageTitle,
     description: 'Odd Even Sort',
   },
